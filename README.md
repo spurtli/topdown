@@ -1,11 +1,8 @@
 # Topdown
 
-Welcome to your new gem! In this directory, you'll find the files you need to be
-able to package up your Ruby library into a gem. Put your Ruby code in the file
-`lib/topdown`. To experiment with that code, run `bin/console` for an
-interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This is a service library. You can use it to create service objects and model
+simple flows in pipelines. It allows to create services and pipelines
+programmatically or you can define them in classes by including a module.
 
 ## Installation
 
