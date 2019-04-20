@@ -22,6 +22,41 @@ Or install it yourself as:
 
 ## Usage
 
+Have a look at the test files.
+
+
+```ruby
+result = Topdown::Service
+  .call(a: 0) { context.a = 1 }
+result.success?
+result.a == 1 # true
+
+result = Topdown::Service
+  .create { context.a = 1 }
+  .call(a: 0)
+result.success?
+result.a == 1 # true
+
+result = Topdown::Service
+  .create { context.a = 1 }
+  .expect(:a)
+  .call(a: 0)
+result.success?
+result.a == 1 # true
+
+result = Topdown::Service
+  .create {}
+  .expect(:b)
+  .call(a: 0)
+result.failure? # true
+
+result = Topdown::Service
+  .create { raise 'stop' }
+  .call
+result.failure? # true
+result.error.message == 'stop' # true
+```
+
 ```ruby
 Topdown::Service
   .call(context) { puts context }
