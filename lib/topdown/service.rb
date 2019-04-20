@@ -16,6 +16,8 @@ module Topdown
       end
     end
 
+    attr_reader :context
+
     def initialize(&block)
       @block = block
     end
@@ -26,25 +28,25 @@ module Topdown
     end
 
     def call(context = {}, &block)
-      context = ensure_context(context)
+      @context = ensure_context(context)
       if block
-        run(context, block)
+        run(&block)
       elsif @block != nil
-        run(context, @block)
+        run(&@block)
       else
-        context.fail!(error: CallError.new)
+        @context.fail!(error: CallError.new)
       end
-      context
+      @context
     rescue Failure, ContextError => err
       err.context
     rescue => err
       err.context
     end
 
-    def run(context, block)
-      block.call(context)
+    def run(&block)
+      instance_eval(&block)
     rescue => err
-      ensure_context(context).fail!(err)
+      @context.fail!(err)
     end
 
     private

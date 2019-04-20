@@ -58,7 +58,7 @@ RSpec.describe Topdown do
 
     it 'create and call' do
       result = Topdown::Service
-        .create {|context| context.a += 1}
+        .create {context.a += 1}
         .expect(:a)
         .call(a: 1)
 
@@ -68,7 +68,7 @@ RSpec.describe Topdown do
 
     it 'create and call with contract violation' do
       result = Topdown::Service
-        .create {|context| context.a += 1}
+        .create {context.a += 1}
         .expect(:a)
         .call(b: 1)
 
@@ -87,7 +87,7 @@ RSpec.describe Topdown do
 
     it 'create and call with nil value' do
       result = Topdown::Service
-        .create {|context| context.a += 1}
+        .create {context.a += 1}
         .expect(:a)
         .call(a: nil)
 
@@ -97,7 +97,7 @@ RSpec.describe Topdown do
 
     it 'create and call without contract' do
       result = Topdown::Service
-        .create {|context| context.a += 1}
+        .create {context.a += 1}
         .call(a: 1)
 
       expect(result).to be_success
@@ -115,7 +115,7 @@ RSpec.describe Topdown do
     end
 
     it 'add step and call' do
-      service1 = Topdown::Service.create {|context| context.a += 1}
+      service1 = Topdown::Service.create {context.a += 1}
 
       result = Topdown::Pipeline
         .expect(:a)
@@ -127,8 +127,8 @@ RSpec.describe Topdown do
     end
 
     it 'add two steps and call' do
-      service1 = Topdown::Service.create {|context| context.a += 1}
-      service2 = Topdown::Service.create {|context| context.a += 1}
+      service1 = Topdown::Service.create {context.a += 1}
+      service2 = Topdown::Service.create {context.a += 1}
 
       result = Topdown::Pipeline
         .expect(:a)
@@ -141,8 +141,8 @@ RSpec.describe Topdown do
     end
 
     it 'add two steps at once and call' do
-      service1 = Topdown::Service.create {|context| context.a += 1}
-      service2 = Topdown::Service.create {|context| context.a += 1}
+      service1 = Topdown::Service.create {context.a += 1}
+      service2 = Topdown::Service.create {context.a += 1}
 
       result = Topdown::Pipeline
         .expect(:a)
@@ -154,7 +154,7 @@ RSpec.describe Topdown do
     end
 
     it 'add step and call without contract' do
-      service = Topdown::Service.create {|context| context.a += 1}
+      service = Topdown::Service.create {context.a += 1}
 
       result = Topdown::Pipeline
         .create
@@ -166,8 +166,8 @@ RSpec.describe Topdown do
     end
 
     it 'add two steps and call, stop at raise in step1' do
-      service1 = Topdown::Service.create { raise 'stop'}
-      service2 = Topdown::Service.create {|context| context.a += 1}
+      service1 = Topdown::Service.create {raise 'stop'}
+      service2 = Topdown::Service.create {context.a += 1}
 
       result = Topdown::Pipeline
         .create
@@ -180,8 +180,8 @@ RSpec.describe Topdown do
     end
 
     it 'add two steps and call, stop at raise in step2' do
-      service1 = Topdown::Service.create {|context| context.a += 1}
-      service2 = Topdown::Service.create {|context| raise 'stop'}
+      service1 = Topdown::Service.create {context.a += 1}
+      service2 = Topdown::Service.create {raise 'stop'}
 
       result = Topdown::Pipeline
         .create
